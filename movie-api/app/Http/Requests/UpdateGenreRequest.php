@@ -23,15 +23,17 @@ class UpdateGenreRequest extends FormRequest
      */
     public function rules(): array
     {
+        $isPut = $this->isMethod('put');
+
         return [
             'name' => [
-                'sometimes',
-                'string', 
+                $isPut ? 'required' : 'sometimes',
+                'string',
                 'max:100',
                 Rule::unique('genres', 'name')->ignore($this->route('genre'))
-                ],
+            ],
             'description' => ['nullable', 'string', 'max:500'],
-            'is_active' => ['boolean'],
+            'is_active' => [$isPut ? 'required' : 'sometimes', 'boolean'],
         ];
     }
 }
