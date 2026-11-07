@@ -6,6 +6,7 @@ use App\Http\Requests\StoreGenreRequest;
 use App\Http\Requests\UpdateGenreRequest;
 use App\Http\Resources\GenreResource;
 use App\Models\Genre;
+use App\Repositories\Contracts\GenreRepositoryInterface;
 use App\Traits\ApiResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,12 +14,15 @@ use Symfony\Component\HttpFoundation\Response;
 class GenreController extends Controller
 {
     use ApiResponse;
+    public function __construct(private GenreRepositoryInterface $genres) {
+
+    }
     /**
      * Display a listing of the resource.
      */
     public function index(): JsonResponse
     {
-        $genres = Genre::all();
+        $genres = $this->genres->all();
         return $this->successResponse(GenreResource::collection(resource: $genres));
     }
 
@@ -32,7 +36,7 @@ class GenreController extends Controller
      */
     public function store(StoreGenreRequest $request): JsonResponse
     {
-        $genre = Genre::create($request->validated());
+        $genre =$this->genres->create($request->validated());
         return $this->successResponse(new GenreResource($genre), "Género creado exitosamente", Response::HTTP_CREATED);
     }
 
@@ -57,7 +61,7 @@ class GenreController extends Controller
      */
     public function update(UpdateGenreRequest $request, Genre $genre): JsonResponse
     {
-        $genre->update($request->validated());
+        $this->genres->update($genre, $request->validated());
         return $this->successResponse(new GenreResource($genre), "Genero actualizado");
     }
 
