@@ -10,6 +10,7 @@ use App\Repositories\Contracts\GenreRepositoryInterface;
 use App\Traits\ApiResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request as HttpRequest;
 
 class GenreController extends Controller
 {
@@ -20,10 +21,14 @@ class GenreController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(HttpRequest  $request): JsonResponse
     {
-        $genres = $this->genres->all();
-        return $this->successResponse(GenreResource::collection(resource: $genres));
+        $genres = $this->genres->filter(
+            filters: $request->only(['search','is_active']),
+            sortBy: $request->input('sort_by','name'),
+            order: $request->input('order','asc'),
+        );
+        return $this->successResponse(GenreResource::collection($genres));
     }
 
     /**
@@ -73,4 +78,9 @@ class GenreController extends Controller
         $genre->delete();
         return $this->successResponse(null, "Género eliminado exitosamente");
     }
+    public function showBySlug(string $slug): JsonResponse
+{
+    $genre = $this->genres->findBySlugOrFail($slug);
+    return $this->successResponse(new GenreResource($genre));
+}
 }
