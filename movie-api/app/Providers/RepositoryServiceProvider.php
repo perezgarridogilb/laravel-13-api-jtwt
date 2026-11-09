@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\MovieRepository;
 use App\Repositories\Contracts\GenreRepositoryInterface;
+use App\Repositories\Contracts\MovieRepositoryInterface;
 use App\Repositories\Eloquent\GenreRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,6 +16,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register(): void
     {
                 $this->app->bind(GenreRepositoryInterface::class, GenreRepository::class);
+                        $this->app->bind(MovieRepositoryInterface::class, MovieRepository::class);
     }
 
     /**
