@@ -83,4 +83,10 @@ class GenreController extends Controller
     $genre = $this->genres->findBySlugOrFail($slug);
     return $this->successResponse(new GenreResource($genre));
 }
+    public function restore(int $id): JsonResponse
+    {
+        $this->genres->restore($id);
+
+        return $this->successResponse(null, 'Género restaurado exitosamente.');
+    }
 }
