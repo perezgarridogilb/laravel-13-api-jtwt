@@ -49,6 +49,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
      * @inheritDoc
      */
     public function update(Model $model, array $data): Model {
+        // style Route Model Binding
         $model->update($data);
         return $model->refresh();
     }
