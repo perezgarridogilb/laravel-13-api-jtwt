@@ -10,6 +10,7 @@ use App\Repositories\Contracts\MovieRepositoryInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class MovieController extends Controller
 {
@@ -41,7 +42,7 @@ class MovieController extends Controller
         }
 
         $movie->load('genres');
-        return $this->successResponse(new MovieResource($movie), "Película creada exitosamente");
+        return $this->successResponse(new MovieResource($movie), "Película creada exitosamente", Response::HTTP_CREATED);
     }
 
     /**
@@ -64,7 +65,7 @@ class MovieController extends Controller
             $this->movieRepository->syncGenres(movie: $movie, genreIds: $request->genre_ids);
         }
         $movie->load('genres');
-        return $this->successResponse(data: new MovieResource(resource: $movie), message: "Película actualizada exitosamente.");
+        return $this->successResponse(data: new MovieResource(resource: $movie), message: "Película actualizada exitosamente.",status: Response::HTTP_OK);
     }
 
     /**

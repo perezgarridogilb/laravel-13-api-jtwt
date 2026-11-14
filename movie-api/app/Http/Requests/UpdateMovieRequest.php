@@ -27,7 +27,7 @@ class UpdateMovieRequest extends FormRequest
         // Revisa toda la tabla de películas para asegurarte de que el título no esté repetido... 
         // excepto en el registro con el ID que estamos modificando en este preciso momento
         'title' => ['sometimes', 'string', 'max:255', Rule::unique(table: 'movies', column: 'title')->ignore($this->route(param: 'movie'))],
-        'year' => ['required', 'integer', 'between:1888,2100'],
+        'year' => ['sometimes', 'integer', 'between:1888,2100'],
         'synopsis' => ['sometimes', 'string'],
         'rating' => ['sometimes', 'numeric', 'min:0', 'max:10'],
         'director' => ['sometimes', 'string', 'max:255'],

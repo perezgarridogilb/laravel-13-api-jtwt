@@ -14,9 +14,9 @@ class MovieRepository extends BaseRepository implements MovieRepositoryInterface
     /**
      * Create a new class instance.
      */
-    public function __construct()
+    public function __construct(Movie $model)
     {
-        //
+        parent::__construct($model);
     }
 
     /**
