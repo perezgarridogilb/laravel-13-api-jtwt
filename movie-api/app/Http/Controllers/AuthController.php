@@ -72,7 +72,7 @@ class AuthController extends Controller
         $token = Auth::guard('api')->refresh();
 
         return $this->successResponse(
-            data: $this->tokenPayload(user: Auth::guard('api')->user(), token: $token)
+            data: $this->tokenPayload(user: Auth::guard('api')->setToken($token)->user(), token: $token)
         );
     }
 }
