@@ -23,7 +23,8 @@ Route::prefix('auth')->group(callback: function (): void {
 });
 
 // Protegidas
-Route::prefix('auth:api')->group(callback: function (): void {
+// dos puntos pide guard jwt
+Route::prefix('auth:api')->middleware('auth:api')->group(callback: function (): void {
     Route::get(uri: 'me', action: [AuthController::class, 'me']);
     Route::post(uri: 'logout', action: [AuthController::class, 'logout']);
     Route::post(uri: 'refresh', action: [AuthController::class, 'refresh']);

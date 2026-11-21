@@ -57,7 +57,7 @@ class AuthController extends Controller
     }
     public function me(): JsonResponse
     {
-        return $this->successResponse(data: new UserResource(resource: Auth::guard(name: 'api')->user()));
+        return $this->successResponse(new UserResource(resource: Auth::guard(name: 'api')->user()), '', Response::HTTP_OK);
     }
 
     public function logout(): JsonResponse
