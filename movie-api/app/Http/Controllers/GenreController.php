@@ -67,7 +67,7 @@ class GenreController extends Controller
     public function update(UpdateGenreRequest $request, Genre $genre): JsonResponse
     {
         $this->genres->update($genre, $request->validated());
-        return $this->successResponse(new GenreResource($genre), "Genero actualizado");
+        return $this->successResponse(new GenreResource($genre), "Genero actualizado", Response::HTTP_OK);
     }
 
     /**
@@ -87,6 +87,6 @@ class GenreController extends Controller
     {
         $this->genres->restore($id);
 
-        return $this->successResponse(null, 'Género restaurado exitosamente.');
+        return $this->successResponse(null, 'Género restaurado exitosamente.', Response::HTTP_OK);
     }
 }

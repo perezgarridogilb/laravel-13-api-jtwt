@@ -38,6 +38,20 @@ class User  extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    public function isAdmin(): bool
+{
+    return $this->role === 'admin';
+}
+
+public function isEditor(): bool
+{
+    return $this->role === 'editor';
+}
+
+public function isViewer(): bool
+{
+    return $this->role === 'viewer';
+}
 
     /** @use HasFactory<UserFactory> */
 

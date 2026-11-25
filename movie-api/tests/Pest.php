@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Tests\TestCase;
 
 /*
@@ -42,6 +43,16 @@ pest()->extend(TestCase::class)->in('Feature');
 | the number of lines of code in your test files.
 |
 */
+
+function admin(): User
+{
+    return User::factory()->create(['role' => 'admin']);
+}
+
+function editor(): User
+{
+    return User::factory()->create(['role' => 'editor']);
+}
 
 // function something()
 // {

@@ -53,7 +53,7 @@ it(description: 'returns the correct genre by slug', closure: function (): void 
 
     $this->assertSoftDeleted(table: 'genres', data: ['id' => $genre->id]);
 
-    $this->patchJson(uri: 'api/genres/'.$genre->id.'/restore')
+    $this->actingAs(admin(), 'api')->postJson(uri: 'api/genres/'.$genre->id.'/restore')
     ->assertStatus(status: 200);
 
     $this->assertDatabaseHas(table: 'genres', data: ['id' => $genre->id, 'deleted_at' => null]);

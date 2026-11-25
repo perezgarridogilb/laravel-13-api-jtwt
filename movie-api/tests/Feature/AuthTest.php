@@ -70,7 +70,7 @@ it(description: 'returns user with valid token on me', closure: function (): voi
 
     $this
         ->actingAs(user: $user, guard: 'api')
-        ->getJson(uri: '/api/auth:api/me')
+        ->getJson(uri: '/api/auth/me')
         ->assertStatus(status: 200)
         ->assertJsonPath(path: 'data.email', expect: $user->email);
 });
@@ -80,7 +80,7 @@ it(description: 'succeeds with valid token on logout', closure: function (): voi
 
     $this
         ->actingAs(user: $user, guard: 'api')
-        ->postJson(uri: '/api/auth:api/logout')
+        ->postJson(uri: '/api/auth/logout')
         ->assertStatus(status: 200);
 });
 

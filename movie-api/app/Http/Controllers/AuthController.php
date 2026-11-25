@@ -17,6 +17,7 @@ class AuthController extends Controller
     use ApiResponse;
     public function register(RegisterRequest $request): JsonResponse
     {
+        //$request->validated(): filtran los datos y solo conservan los campos que formaron parte de las reglas de validación (y pasaron la validación)
         $user = User::create($request->validated());
 
         try {

@@ -25,7 +25,7 @@ it('returns all movies on index', function (): void {
 it('creates a movie with auto slug on store', function (): void {
     $payload = ['title' => 'test', 'year' => 1988, 'rating' =>8];
 
-    $response = $this->postJson('api/movies', $payload);
+    $response = $this->actingAs(editor(), 'api')->postJson('api/movies', $payload);
             $response->assertStatus(201)
     ->assertJsonPath('data.title', 'test');
     $this->assertDatabaseHas( 'movies', ['slug' => 'test']);
@@ -33,7 +33,7 @@ it('creates a movie with auto slug on store', function (): void {
 it('modifies a movie with auto slug on update', function (): void {
     $movie = Movie::factory()->create(['title' => 'test', 'year' => 1988, 'rating' =>8]);
 
-    $response = $this->putJson("api/movies/{$movie->id}", ["title" => 'Child\'s Play']);
+    $response = $this->actingAs(editor(), 'api')->putJson("api/movies/{$movie->id}", ["title" => 'Child\'s Play']);
             $response->assertStatus(200)
     ->assertJsonPath('data.title', 'Child\'s Play');
     // $this->assertDatabaseHas('movies', ['slug' => 'comedia']);
@@ -41,7 +41,7 @@ it('modifies a movie with auto slug on update', function (): void {
 it('soft deletes a movie on destroy', function (): void {
     $movie = Movie::factory()->create();
 
-    $this->deleteJson("api/movies/{$movie->id}");
+    $this->actingAs(admin(), 'api')->deleteJson("api/movies/{$movie->id}");
 
     $this->assertSoftDeleted('movies', ['id' => $movie->id]);
 })/* ->skip() */;
@@ -65,7 +65,7 @@ it('syncs genres when provided on store', function (): void {
         'genre_ids' => $genre_ids,
     ];
 
-    $response = $this->postJson('api/movies', $payload);
+    $response = $this->actingAs(editor(), 'api')->postJson('api/movies', $payload);
     $response->assertCreated();
 
     $movie = Movie::latest()->first();
@@ -84,7 +84,7 @@ it('validates genre_ids exist on store', function (): void {
         'genre_ids' => [999],
     ];
 
-    $response = $this->postJson('api/movies', $payload);
+    $response = $this->actingAs(editor(), 'api')->postJson('api/movies', $payload);
     $response->assertUnprocessable()
         ->assertJsonPath('message', 'El campo genre_ids.0 no existe.')
         ->assertJsonValidationErrors(['genre_ids.0']);
